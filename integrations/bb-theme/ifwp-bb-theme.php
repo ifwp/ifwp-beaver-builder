@@ -6,4 +6,4 @@ add_action('customize_register', ['IFWP_BB_Theme', 'customize_register'], 20);
 add_action('wp_enqueue_scripts', ['IFWP_BB_Theme', 'wp_enqueue_scripts']);
 add_filter('fl_theme_compile_less_paths', ['IFWP_BB_Theme', 'fl_theme_compile_less_paths']);
 add_filter('fl_theme_get_google_json', ['IFWP_BB_Theme', 'fl_theme_get_google_json']);
-//IFWP_BB_Theme::maybe_reboot_theme_mods();
+IFWP_BB_Theme::maybe_reboot_theme_mods();
