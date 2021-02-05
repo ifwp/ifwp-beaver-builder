@@ -29,7 +29,7 @@ if(!class_exists('IFWP_BB_Theme')){
             if(wp_style_is($handle, 'registered')){
                 wp_deregister_style($handle);
             }
-            wp_register_style($handle, $src, $deps, $ver, $in_footer);
+            wp_register_style($handle, $src, $deps, $ver);
             wp_enqueue_style($handle);
         }
 
