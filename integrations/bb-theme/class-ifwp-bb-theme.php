@@ -5,6 +5,36 @@ if(!class_exists('IFWP_BB_Theme')){
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //
+        // protected
+        //
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        protected static function overwrite_script($handle = '', $src = '', $deps = [], $ver = false, $in_footer = false){
+            if(wp_script_is($handle)){
+                wp_dequeue_script($handle);
+            }
+            if(wp_script_is($handle, 'registered')){
+                wp_deregister_script($handle);
+            }
+            wp_register_script($handle, $src, $deps, $ver, $in_footer);
+            wp_enqueue_script($handle);
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        protected static function overwrite_style($handle = '', $src = '', $deps = [], $ver = false){
+            if(wp_style_is($handle)){
+                wp_dequeue_style($handle);
+            }
+            if(wp_style_is($handle, 'registered')){
+                wp_deregister_style($handle);
+            }
+            wp_register_style($handle, $src, $deps, $ver, $in_footer);
+            wp_enqueue_style($handle);
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //
         // public
         //
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,6 +70,15 @@ if(!class_exists('IFWP_BB_Theme')){
                 }
             }
             return $paths;
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        public static function fl_theme_framework_enqueue($framework){
+            if(isset($_GET['fl_builder'])){
+    			return str_replace('base', 'bootstrap', $framework);
+    		}
+    		return $framework;
         }
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -203,7 +242,11 @@ if(!class_exists('IFWP_BB_Theme')){
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         public static function wp_enqueue_scripts(){
-            wp_enqueue_style('ifwp-bb-theme', plugin_dir_url(__FILE__) . 'ifwp-bb-theme.css', [], filemtime(plugin_dir_path(__FILE__) . 'ifwp-bb-theme.css'));
+            if(wp_script_is('bootstrap-4') and wp_style_is('bootstrap-4')){
+                self::overwrite_script('bootstrap-4', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js', ['jquery'], '4.6.0', true);
+                self::overwrite_style('bootstrap-4', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css', [], '4.6.0');
+                wp_enqueue_style('ifwp-bb-theme', plugin_dir_url(__FILE__) . 'ifwp-bb-theme.css', ['bootstrap-4'], filemtime(plugin_dir_path(__FILE__) . 'ifwp-bb-theme.css'));
+            }
         }
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
