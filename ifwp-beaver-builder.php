@@ -10,7 +10,7 @@ Network:
 Plugin Name: IFWP Beaver Builder
 Plugin URI: https://github.com/ifwp/ifwp-beaver-builder
 Text Domain: ifwp-beaver-builder
-Version: 0.2.4.3
+Version: 0.2.4.4
 */
 
 if(defined('ABSPATH')){
